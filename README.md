@@ -1,5 +1,8 @@
 # Proyecto gramaticas y lenguajes
 
+### Juan Camilo Murillo Ruiz
+### Jesus David Villamil Angarita
+
 ## Eleccion del regex
 
 Para este proyecto escogimos el siguiente regex: ***^\d{4}$ | ^\d{6}$***  
