@@ -17,8 +17,8 @@
             <form action="script.js" id="formCinta">
                 <div class="row mb-4">
                     <div class="col">
-                        <label class="form-label">Cinta inicial:</label>
-                        <input id="inputTape" type="text" class="form-control" placeholder="Ej: 2468">
+                        <label class="form-label">Cinta inicial (debe contener como minimo un "_"):</label>
+                        <input id="inputTape" type="text" class="form-control" placeholder="Ej: 2468_">
                     </div>
                     <div class="col-auto d-flex align-items-end">
                         <button type="submit" id="loadBtn" class="btn btn-primary">Cargar cinta</button>
@@ -41,8 +41,8 @@
 
             <!-- Estado actual -->
             <div class="alert alert-info">
-                <strong>Estado actual:</strong>
-                <span id="stateLabel">—</span>
+                <strong>Procedimiento:</strong>
+                <span id="stateLabel"></span>
             </div>
 
             <!-- Resultado final -->

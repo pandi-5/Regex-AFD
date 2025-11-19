@@ -1,11 +1,12 @@
 let form = document.getElementById("formCinta");        // Formulario para obtener el array
 let cajaCinta = document.getElementById("tapeBox");     // Div que representa la cinta en el index.html
+let cajaProceso = document.getElementById("stateLabel")
 
 let oneStep = document.getElementById("stepBtn");       // Boton para avanazar en la cinta una vez
 let autoStep = document.getElementById("autoBtn");      // Boton para avance automatico de la cinta
 let reset = document.getElementById("resetBtn");        // Boton para reiniciar la cinta
 
-let regex = /^[\d_]*$/;                                    // Expresion regex a validar
+let regex = /^(\d*_[\d_]*)$/;                                    // Expresion regex a validar
 let posDecision = null;
 
 cinta = [];                                             // Arreglo global que representa la cinta
@@ -79,6 +80,40 @@ alfabeto.forEach(simbolo => {
     transiciones["qaccept"][simbolo] = {escribir : simbolo, mover : "S", sigEstado : "qaccept"};
 });
 
+function trazaProceso(regla, estadoActual, simbolo){
+    if (regla != null) {
+        let estadoAnterior = estadoActual;
+        let leido = simbolo;
+        let escribe = regla.escribir;
+        let direccion = ""; 
+        let nuevoEstadoActual = regla.sigEstado;
+
+        switch (regla.mover) {
+            case "R": direccion = "Derecha";
+                break; 
+            case "S": direccion = "Estatico";
+                break;
+            case "L": direccion = "Izquierda";
+                break;
+        }
+
+        cajaProceso.innerHTML = "";
+        cajaProceso.innerHTML = `
+            <div class="log-item">Estado anterior: <strong>${estadoAnterior}</strong></div>
+            <div class="log-item">Leyó: <strong>${leido}</strong></div>
+            <div class="log-item">Escribió: <strong>${escribe}</strong></div>
+            <div class="log-item">Movimiento: <strong>${direccion}</strong></div>
+            <div class="log-item">Estado actual: <strong>${nuevoEstadoActual}</strong></div>
+
+        `;
+    } else {
+        cajaProceso.innerHTML = `
+            <span class="log-item">Estado actual: <strong>${estadoActual}</strong></span>
+        `;
+    }
+    
+}
+
 function renderCinta() { 
     cajaCinta.innerHTML = "";
 
@@ -110,24 +145,6 @@ function renderCinta() {
     });
 }
 
-form.addEventListener("submit", (e) =>{
-
-    e.preventDefault();
-    const inputCinta = document.getElementById("inputTape");
-    const valor = inputCinta.value.trim();
-
-    if(regex.test(valor)){
-        head = 0;
-        estado = "q0";
-        posDecision = null;
-        cinta = valor.split("");
-        renderCinta();
-    }else {
-        cinta = [];
-        cajaCinta.innerHTML = "<span class=text-muted>Cadena no válida</span>";
-    }
-})
-
 function step(){
 
     if (estado === "qaccept" || estado === "qreject") {
@@ -135,9 +152,10 @@ function step(){
         return;
     }
 
-    console.log(estado);
     let simboloActual = cinta[head];
     let regla = transiciones[estado][simboloActual];
+
+    trazaProceso(regla, estado, simboloActual);
 
     if (!regla) {
         estado = "qreject"
@@ -160,20 +178,6 @@ function step(){
     renderCinta();
 }
 
-oneStep.addEventListener("click", ()=>{
-    let tamano = cinta.length;
-    if ((tamano > 0) && (head < tamano)) {
-        step();    
-    }
-})
-
-reset.addEventListener("click", ()=>{
-    head = 0;
-    estado = "q0";
-    posDecision = null;
-    renderCinta();
-})
-
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -184,6 +188,39 @@ async function autoRun() {
         step();
     }
 }
+
+form.addEventListener("submit", (e) =>{
+
+    e.preventDefault();
+    const inputCinta = document.getElementById("inputTape");
+    const valor = inputCinta.value.trim();
+
+    if(regex.test(valor)){
+        head = 0;
+        estado = "q0";
+        posDecision = null;
+        cinta = valor.split("");
+        renderCinta();
+        trazaProceso(null, estado, "");
+    }else {
+        cinta = [];
+        cajaCinta.innerHTML = "<span class=text-muted>Cadena no válida</span>";
+    }
+})
+
+oneStep.addEventListener("click", ()=>{
+    let tamano = cinta.length;
+    if ((tamano > 0) && (head <tamano)) {
+        step();    
+    }
+})
+
+reset.addEventListener("click", ()=>{
+    head = 0;
+    estado = "q0";
+    posDecision = null;
+    renderCinta();
+})
 
 autoStep.addEventListener("click", ()=>{
     autoRun();
