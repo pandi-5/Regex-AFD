@@ -7,7 +7,9 @@
 ## Demo (GitHub Pages)
 
 Puedes ver el sitio web funcionando aquí:  
-**[https://usuario.github.io/nombre-del-repo/](https://pandi-5.github.io/Regex-AFD/)**
+<a href="https://pandi-5.github.io/Regex-AFD" target="_blank">Ver sitio web (GitHub Pages)</a>
+
+
 
 ## Eleccion del regex
 
