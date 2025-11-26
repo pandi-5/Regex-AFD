@@ -7,7 +7,7 @@
 ## Demo (GitHub Pages)
 
 Puedes ver el sitio web funcionando aquí:  
-**https://usuario.github.io/nombre-del-repo/**
+**[https://usuario.github.io/nombre-del-repo/](https://pandi-5.github.io/Regex-AFD/)**
 
 ## Eleccion del regex
 
