@@ -2,6 +2,7 @@
 
 ### Juan Camilo Murillo Ruiz
 ### Jesus David Villamil Angarita
+### Valeria Roche Diago
 
 ## Eleccion del regex
 
